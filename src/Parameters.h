@@ -47,6 +47,26 @@ class Parameters
 
     // initial target edge length at every vertex(in % of the box diagonal)
     Scalar ideal_edge_length_rel = 1 / 20.0;
+
+    // Initial absolute target edge-length at every vertex. Only used if -a is specified.
+    double ideal_edge_length_abs = 0.0;
+
+    // convenience function to get the correct absolute edge length depending
+    // on what was set by the CLI reader
+    double getAbsoluteEdgeLength() const
+    {
+        return ideal_edge_length_abs != 0.0 ? ideal_edge_length_abs
+          : ideal_edge_length_rel*bbox_diag_length;
+    }
+
+    // convenience function to get the correct relative edge length depending
+    // on what was set by the CLI reader
+    double getRelativeEdgeLength() const
+    {
+        return ideal_edge_length_abs != 0.0 ? ideal_edge_length_abs/bbox_diag_length
+          : ideal_edge_length_rel;
+    }
+
     Scalar min_edge_len_rel      = -1;
 
     int    max_its     = 80;
@@ -61,8 +81,6 @@ class Parameters
     Vector3 bbox_min;
     Vector3 bbox_max;
     Scalar  bbox_diag_length;
-    Scalar  ideal_edge_length;
-    Scalar  ideal_edge_length_2;
     Scalar  eps_input;
     Scalar  eps;
     Scalar  eps_delta;
@@ -88,9 +106,6 @@ class Parameters
             stage = 5;
 
         bbox_diag_length = bbox_diag_l;
-
-        ideal_edge_length   = bbox_diag_length * ideal_edge_length_rel;
-        ideal_edge_length_2 = ideal_edge_length * ideal_edge_length;
 
         eps_input = bbox_diag_length * eps_rel;
         dd        = eps_input;// / stage;
@@ -119,13 +134,13 @@ class Parameters
         if (min_edge_len_rel < 0)
             min_edge_len_rel = eps_rel;
 
-        split_threshold      = ideal_edge_length * (4 / 3.0);
-        collapse_threshold   = ideal_edge_length * (4 / 5.0);
+        split_threshold      = getAbsoluteEdgeLength() * (4 / 3.0);
+        collapse_threshold   = getAbsoluteEdgeLength() * (4 / 5.0);
         split_threshold_2    = split_threshold * split_threshold;
         collapse_threshold_2 = collapse_threshold * collapse_threshold;
 
         std::cout << "bbox_diag_length = " << bbox_diag_length << std::endl;
-        std::cout << "ideal_edge_length = " << ideal_edge_length << std::endl;
+        std::cout << "ideal_edge_length = " << getAbsoluteEdgeLength() << std::endl;
 
         std::cout << "stage = " << stage << std::endl;
         std::cout << "eps_input = " << eps_input << std::endl;

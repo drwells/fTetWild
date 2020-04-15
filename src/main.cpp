@@ -182,8 +182,10 @@ int main(int argc, char **argv) {
     std::string csg_file="";
     command_line.add_option("--op", boolean_op, "");
 
-    command_line.add_option("-l,--lr", params.ideal_edge_length_rel,
-                            "ideal_edge_length = diag_of_bbox * L. (double, optional, default: 0.05)");
+    auto absolute = command_line.add_option("-a,--ideal-absolute-edge-length", params.ideal_edge_length_abs, "Absolute edge length (not scaled by bbox). -a and -l cannot both be given as arguments.");
+    auto relative = command_line.add_option("-l,--ideal-edge-length", params.ideal_edge_length_rel, "ideal_edge_length = diag_of_bbox * L. (double, optional, default: 0.05)");
+    relative->excludes(absolute);
+
     command_line.add_option("-e,--epsr", params.eps_rel,
                             "epsilon = diag_of_bbox * EPS. (double, optional, default: 1e-3)");
 
@@ -355,7 +357,8 @@ int main(int argc, char **argv) {
         std::stringstream buf;
         buf.precision(100);
         buf.setf(std::ios::fixed, std::ios::floatfield);
-        buf<<"Qpq2.0a"<<params.ideal_edge_length*params.ideal_edge_length*params.ideal_edge_length*sqrt(2.)/12.;
+        const double el = parameters.getAbsoluteEdgeLength();
+        buf<<"Qpq2.0a"<<el*el*el*sqrt(2.)/12.;
 
         Eigen::MatrixXi tetgen_generated_tets;
         Eigen::MatrixXd tetgen_generated_points;

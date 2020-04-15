@@ -37,7 +37,7 @@ namespace floatTetWild {
             }
 
 //            const Scalar dis = std::max((max - min).minCoeff() * params.box_scale, params.eps_input * 2);
-            const Scalar dis = std::max(params.ideal_edge_length, params.eps_input * 2);
+            const Scalar dis = std::max(params.getAbsoluteEdgeLength(), params.eps_input * 2);
             for (int j = 0; j < 3; j++) {
                 min[j] -= dis;
                 max[j] += dis;
@@ -139,7 +139,7 @@ namespace floatTetWild {
             voxels.clear();
             voxels.reserve((n_voxels(0) + 1) * (n_voxels(1) + 1) * (n_voxels(2) + 1));
 
-//            const double sq_distg = std::min(params.ideal_edge_length / 2, 10 * params.eps);
+//            const double sq_distg = std::min(params.getAbsoluteEdgeLength() / 2, 10 * params.eps);
             const double sq_distg = 100 * params.eps_2;
             GEO::vec3 nearest_point;
 

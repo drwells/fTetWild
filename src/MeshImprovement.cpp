@@ -503,7 +503,7 @@ bool floatTetWild::update_scaling_field(Mesh &mesh, Scalar max_energy) {
     cout << "updating sclaing field ..." << endl;
     bool is_hit_min_edge_length = false;
 
-    Scalar radius0 = mesh.params.ideal_edge_length * 1.8;//increasing the radius would increase the #v in output
+    Scalar radius0 = mesh.params.getAbsoluteEdgeLength() * 1.8;//increasing the radius would increase the #v in output
 //    if(is_hit_min)
 //        radius0 *= 2;
 
@@ -1005,7 +1005,7 @@ int floatTetWild::get_max_p(const Mesh &mesh)
     std::vector<std::array<int, 2>> edges;
     get_all_edges(mesh, edges);
     Scalar h_ref = 0;
-    //mesh.params.ideal_edge_length;
+    //mesh.params.getAbsoluteEdgeLength();
     for(const auto &e : edges){
         const Vector3 edge = (mesh.tet_vertices[e[0]].pos - mesh.tet_vertices[e[1]].pos)*scaling;
         h_ref += edge.norm();
