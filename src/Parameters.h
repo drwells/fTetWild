@@ -68,7 +68,6 @@ class Parameters
     Scalar  eps_delta;
     Scalar  eps_2;
     Scalar  dd;
-    Scalar  min_edge_length;
 
     Scalar split_threshold;
     Scalar collapse_threshold;
@@ -119,7 +118,6 @@ class Parameters
 
         if (min_edge_len_rel < 0)
             min_edge_len_rel = eps_rel;
-        min_edge_length = bbox_diag_length * min_edge_len_rel;
 
         split_threshold      = ideal_edge_length * (4 / 3.0);
         collapse_threshold   = ideal_edge_length * (4 / 5.0);
