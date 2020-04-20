@@ -113,5 +113,5 @@ set(windingnumber_SOURCES
 
 add_library(fast_winding_number ${windingnumber_SOURCES})
 target_link_libraries(fast_winding_number PRIVATE tbb::tbb)
-target_compile_features(fast_winding_number PRIVATE ${CXX17_FEATURES})
+target_compile_features(fast_winding_number PRIVATE ${CXX14_FEATURES})
 target_include_directories(fast_winding_number PUBLIC "${FLOAT_TETWILD_EXTERNAL}/")

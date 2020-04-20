@@ -51,8 +51,8 @@ endfunction()
 ## CLI11
 function(float_tetwild_download_cli11)
     float_tetwild_download_project(cli11
-            URL     https://github.com/CLIUtils/CLI11/archive/v1.8.0.tar.gz
-            URL_MD5 5e5470abcb76422360409297bfc446ac
+            GIT_REPOSITORY     https://github.com/CLIUtils/CLI11.git
+            GIT_TAG v1.6.1
     )
 endfunction()
 
